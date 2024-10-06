@@ -7,9 +7,9 @@ jobs:
   check-releases:
     name: Latest Genesis Data
     runs-on: ubuntu-latest
-    continue-on-error: true
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: sergeidyga/checkout-dirs@v1
         with:
@@ -22,12 +22,6 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-      - name: Push changes to main
-        uses: ad-m/github-push-action@master
-        with:
-          branch: "gh-pages"
-          force: true
           
       - uses: casperdcl/push-dir@v1
         with:
