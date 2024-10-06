@@ -26,3 +26,6 @@ jobs:
           branch: gh-pages
           dir: transactions
           history: false
+          force: true
+          name: "github-actions[bot]"
+          email: "github-actions[bot]@users.noreply.github.com"
