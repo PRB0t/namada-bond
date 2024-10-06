@@ -23,6 +23,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
+      - name: Push changes to main
+        uses: ad-m/github-push-action@master
+        with:
+          branch: "gh-pages"
+          force: true
+          
       - uses: casperdcl/push-dir@v1
         with:
           message: update static site
@@ -32,9 +38,3 @@ jobs:
           force: true
           name: "github-actions[bot]"
           email: "github-actions[bot]@users.noreply.github.com"
-
-      - name: Push changes to main
-        uses: ad-m/github-push-action@master
-        with:
-          branch: "gh-pages"
-          force: true
