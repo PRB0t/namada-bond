@@ -10,30 +10,14 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: sergeidyga/checkout-dirs@v1
         with:
-          repository: anoma/namada-mainnet-genesis
+           dirs: 'genesis transactions'
+           repository: anoma/namada-mainnet-genesis
 
-      - name: Remove Files
-        uses: Lyoko-Jeremie/js-rm-github-action@master
+      - uses: casperdcl/push-dir@v1
         with:
-          path: |
-            /images
-            /scripts
-            /.gitignore
-            /README.md
-            /poetry.lock
-            /pyproject.toml
-
-      - name: Commit files
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git commit -a -m "Update files from Genesis repo"
-          
-      - name: Push changes to main
-        uses: ad-m/github-push-action@master
-        with:
-          branch: "main"
-          force: true
+          message: update static site
+          branch: gh-pages
+          dir: transactions
+          history: false
