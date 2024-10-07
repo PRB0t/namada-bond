@@ -1,4 +1,4 @@
-name: Update Combined Data
+name: Update Validator Data
 
 on:
   schedule:
