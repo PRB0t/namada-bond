@@ -24,7 +24,7 @@ async function fetchValidatorsData() {
       // Prepare an object to hold the validator data
       const validator = {};
 
-      // Since each entry is indented with spaces, we can use regex to extract the fields
+      // Since each entry is indented with spaces, we can use regex to extract
       const lines = entry.split("\n");
 
       // The first line is the address
