@@ -192,6 +192,7 @@ export default function Home() {
               sx={{
                 "& .MuiDataGrid-row:hover": {
                   backgroundColor: "#eee",
+                  cursor: "pointer",
                 },
                 "& .MuiDataGrid-columnHeaderTitle": {
                   fontWeight: "bold",
@@ -221,6 +222,12 @@ export default function Home() {
                 },
                 "& .MuiSvgIcon-root": {
                   color: "black",
+                },
+                "& .Mui-selected": {
+                  backgroundColor: "rgb(255, 255, 0) !important", // Selected row color
+                },
+                "& .MuiDataGrid-cell:focus, & .MuiDataGrid-row:focus": {
+                  outline: "none", // Remove focus outline
                 },
               }}
             />
