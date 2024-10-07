@@ -1,8 +1,9 @@
 name: Update Validator Data
 
 on:
-  schedule:
-    - cron: "0 * * * *" # Runs at the top of every hour
+  push:
+    branches:
+      - fix/gh-action
   workflow_dispatch: # Allows manual triggering of the workflow
 
 permissions:

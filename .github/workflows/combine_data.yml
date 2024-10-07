@@ -1,10 +1,11 @@
 name: Update Combined Data
 on:
-  schedule:
-    - cron: "45 * * * *" # Runs at 45 minutes past every hour
-  workflow_dispatch: # Allows manual triggering of the workflow
+  push:
+    branches:
+      - fix/gh-action
+  workflow_dispatch:
 permissions:
-  contents: write # Allows the workflow to push changes to the repository
+  contents: write 
 jobs:
   update-data:
     runs-on: ubuntu-latest
