@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/ValidityOps/namada-bond#readme",
   "dependencies": {
+    "bech32": "^2.0.0",
     "toml": "^3.0.0"
   }
 }

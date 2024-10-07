@@ -1,78 +1,131 @@
 // index.js
 
-const toml = require("toml");
 const fs = require("fs");
 
-const owner = "anoma";
-const repo = "namada-mainnet-genesis";
-const path = "transactions";
-const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-
-async function fetchValidatorFiles() {
+async function fetchValidatorsData() {
   try {
-    // Step 1: Get the list of files in the directory
-    const response = await fetch(apiUrl);
-    const files = await response.json();
+    // Step 1: Fetch the README.md content
+    const rawUrl =
+      "https://raw.githubusercontent.com/anoma/namada-mainnet-genesis/main/README.md";
+    const response = await fetch(rawUrl);
+    const content = await response.text();
 
-    // Step 2: Filter files ending with '-validator.toml'
-    const validatorFiles = files.filter((file) =>
-      file.name.endsWith("-validator.toml")
-    );
+    // Step 2: Extract the Validators section
+    const validatorsSection = content.split("## Validators")[1];
+    if (!validatorsSection) {
+      throw new Error("Validators section not found in README.md");
+    }
 
-    // Step 3: Fetch and process all TOML files in parallel
-    const dataArray = await Promise.all(
-      validatorFiles.map(async (file) => {
-        try {
-          const fileResponse = await fetch(file.download_url);
-          const fileContent = await fileResponse.text();
+    // Split the validatorsSection into individual validator entries
+    const validatorEntries = validatorsSection.split("- address:").slice(1);
 
-          // Parse TOML content
-          const data = toml.parse(fileContent);
+    // Step 3: Process each validator entry
+    const validatorsData = validatorEntries.map((entry) => {
+      // Prepare an object to hold the validator data
+      const validator = {};
 
-          // Remove the 'established_account' section
-          delete data.established_account;
+      // Since each entry is indented with spaces, we can use regex to extract the fields
+      const lines = entry.split("\n");
 
-          // Extract the filename without extension to use as validator_name
-          const fileName = file.name;
-          const validatorName = fileName.replace("-validator.toml", "");
+      // The first line is the address
+      const addressLine = lines[0].trim();
+      const addressMatch = addressLine.match(/`([^`]+)`/);
+      if (addressMatch) {
+        validator.address = addressMatch[1].trim();
+      }
 
-          // Add validator_name to the validator_account section
-          if (Array.isArray(data.validator_account)) {
-            data.validator_account.forEach((account) => {
-              account.validator_name = validatorName;
-            });
-          } else if (
-            data.validator_account &&
-            typeof data.validator_account === "object"
-          ) {
-            data.validator_account.validator_name = validatorName;
-          } else {
-            console.warn(
-              `validator_account is missing or not in expected format in file: ${file.name}`
-            );
+      // Process the subsequent lines
+      lines.slice(1).forEach((line) => {
+        const trimmedLine = line.trim();
+        const fieldMatch = trimmedLine.match(/- ([^:]+): `([^`]+)`/);
+        if (fieldMatch) {
+          const key = fieldMatch[1].toLowerCase().replace(/ /g, "_");
+          let value = fieldMatch[2];
+
+          // Special handling for percentage values
+          if (value.endsWith("%")) {
+            value = value.slice(0, -1);
           }
 
-          return data;
-        } catch (error) {
-          console.error(`Error processing file ${file.name}:`, error);
-          return null; // Skip this file
+          // For total voting power, we need to split into two items
+          if (key === "total_voting_power") {
+            const totalVotingPowerMatch = value.match(
+              /^([^ ]+) \(([^%]+)% of total voting power\)$/
+            );
+            if (totalVotingPowerMatch) {
+              validator.total_bond = parseFloat(
+                totalVotingPowerMatch[1].replace(/,/g, "")
+              );
+              validator.total_voting_power = parseFloat(
+                totalVotingPowerMatch[2]
+              );
+            } else {
+              console.warn(
+                `Unexpected format for total voting power: ${value}`
+              );
+            }
+          } else {
+            validator[key] = value;
+          }
         }
-      })
+      });
+
+      return validator;
+    });
+
+    // Step 4: Read combined_data.json and create a map of address to discord_handle
+    const combinedData = JSON.parse(
+      fs.readFileSync("combined_data.json", "utf8")
     );
+    const addressToDiscord = {};
 
-    // Filter out null entries (files that had errors)
-    const filteredDataArray = dataArray.filter((data) => data !== null);
+    combinedData.forEach((item) => {
+      // Handle both array and object forms of validator_account
+      const validatorAccounts = Array.isArray(item.validator_account)
+        ? item.validator_account
+        : [item.validator_account];
+      validatorAccounts.forEach((account) => {
+        if (account && account.address) {
+          const address = account.address.trim().toLowerCase();
 
-    // Step 4: Write combined data to a JSON file
+          let discordHandle = null;
+          console.log(account.metadata, "metadata ayyy");
+          // Access discord_handle from account.metadata.discord_handle
+          if (account.metadata && account.metadata.discord_handle) {
+            discordHandle = account.metadata.discord_handle;
+          }
+
+          // Map the normalized address to the discord_handle
+          addressToDiscord[address] = discordHandle;
+        }
+      });
+    });
+    console.log(addressToDiscord, "address to discord");
+    // Step 5: Add discord_handle to validatorsData
+    validatorsData.forEach((validator) => {
+      const address = validator.address.trim().toLowerCase();
+      const discordHandle = addressToDiscord[address];
+      if (discordHandle) {
+        validator.discord_handle = discordHandle;
+        console.log("discord added");
+      } else {
+        validator.discord_handle = null;
+        console.warn(
+          `Discord handle not found for address: ${validator.address}`
+        );
+      }
+    });
+
+    // Step 6: Write combined data to a JSON file
     fs.writeFileSync(
-      "combined_data.json",
-      JSON.stringify(filteredDataArray, null, 2)
+      "validators_data.json",
+      JSON.stringify(validatorsData, null, 2)
     );
 
-    console.log("Combined data written to combined_data.json");
+    console.log("Validators data written to validators_data.json");
   } catch (error) {
     console.error("Error:", error);
   }
 }
 
-fetchValidatorFiles();
+fetchValidatorsData();
