@@ -7804,6 +7804,48 @@
   {
     "validator_account": [
       {
+        "address": "tnam1qyauvf4gmvtthknkrftu9jpjaqn6k0k6nu3jucey",
+        "vp": "vp_user",
+        "commission_rate": "0.05",
+        "max_commission_rate_change": "0.01",
+        "net_address": "1.2.3.4:26656",
+        "consensus_key": {
+          "pk": "tpknam1qpjmdjrpauvpllt0p2x6ggv6glc4tt8ccmlupjlm32cmk0g8c5yz7nf3tqv",
+          "authorization": "signam1qzm2u0pjlfqzt8dh405jenk7th4nqxfq8mk6yvzmnglcz57hm2q6vm85r2pv6np5y5era4w7e6nz93w83guem82lq438ay9e8mw9g6g8jd2na4"
+        },
+        "protocol_key": {
+          "pk": "tpknam1qqwaytgfzmqrtjanpjnkrveawrle8trdfl9m4ca9cccczhc0vqrr5c6h7vk",
+          "authorization": "signam1qp59sj6stvvv62yt0f6atpxuv970wy62ecjxkhhhwhrdptm32xnjh9cml4exgc27afq6ut0f4qjhsqvy3hhafep0kj5tq6jd7jhzq6cx8hkkyd"
+        },
+        "tendermint_node_key": {
+          "pk": "tpknam1qphum242xm2mmm4ehn7j36z3lg0s4uyqj64zmsmavym4crs4scrkvkcmh2k",
+          "authorization": "signam1qr8xmxste0ngy6umqqe5aaqps24k4mwrtydvk89dgqqzg44xlsg3rk0d7dlllaq493untqlm78jedynv3mjzymsvqzpdy265zqjd74gdzfz0nl"
+        },
+        "eth_hot_key": {
+          "pk": "tpknam1qypyyce3z4y99e76c8dlj5tv90vf6yk92vnwzqg5es3ykmx5qmrz2esn3lxml",
+          "authorization": "signam1q8txax83hjjndvmwsmpm2frrk4qc3tsmt5kt2pvsqd9wj3k9x3c9kp6slu8v0msm99xfyh94w0j7chvguf8rxs0ssc3cquelk0ww78w8qykkxssz"
+        },
+        "eth_cold_key": {
+          "pk": "tpknam1qypmysrgp07tmayzx26hyh4jc7z37qxfd4mt7zcpr3p642mqnx657fq5hkx6w",
+          "authorization": "signam1qx9whwkgjyutfy2wzrk88l40py693aaacrj37hu5dwtn4smdj5yh5pu3hpgn755xjlenaxj3ye7z5wyd4cv0xg5quzvm4weetd53p65eqyfknpqf"
+        },
+        "metadata": {
+          "email": "marco@kleomed.es",
+          "description": "Ping Dashboard is not just an explorer but also a wallet and more ... 🛠",
+          "website": "https://ping.pub",
+          "avatar": "https://raw.githubusercontent.com/ping-pub/explorer/refs/heads/master/public/logo.svg",
+          "name": "Ping"
+        },
+        "signatures": {
+          "tpknam1qra86qdrdgahdvaxsq0t7t4gy0lccf3t4lp6pzxslc0kxla9s58gyrzvefe": "signam1qqph44mrydc4u342n9zc6vaucwxxludz6mk8vsxm0a9kjy45rj2322hz0etecl4ylaaxhuudzmvjqnynr3nh3slflvu3xp5vlvahpdqrg7tjt7"
+        },
+        "validator_name": "tsulhc"
+      }
+    ]
+  },
+  {
+    "validator_account": [
+      {
         "address": "tnam1qya90eeuaxn47ajfjp08f8zzgjtmhy0lmyxn26gu",
         "vp": "vp_user",
         "commission_rate": "0.05",
@@ -7969,6 +8011,46 @@
           "tpknam1qrevktceqeqx5ke7j38epyg7wzy8vd5rxsay6gqlv7yv6gg2w84fkk24w9x": "signam1qz9wfflt0x8mcdmwvms2jwc8tvwk69a55aaaf6ee6p73wz0kegwcklhssyyhlfa8m4dwfhg6rnm5np6lsvr208c36332wtk6tdtllqc2g2r703"
         },
         "validator_name": "validatus"
+      }
+    ]
+  },
+  {
+    "validator_account": [
+      {
+        "address": "tnam1q8lhvxys53dlc8wzlg7dyqf9avd0vff6wvav4amt",
+        "vp": "vp_user",
+        "commission_rate": "0.05",
+        "max_commission_rate_change": "0.01",
+        "net_address": "109.123.230.3:26656",
+        "consensus_key": {
+          "pk": "tpknam1qqgjhctr2638m8ltkek52hpzasrdvgyxj9axv8tfxal7wvpk97upvz50dgm",
+          "authorization": "signam1qzweyrlej4lg8lcj5rfnzad2r05ux8p7yt7v3czudl9msf44qcftxpk9we76c4e6va27nq80u2mrjc8wmk852lm7vdla8awaxjejtgsgv3wzr4"
+        },
+        "protocol_key": {
+          "pk": "tpknam1qzsa2uqsx9gxuerx4g6vd9hfagjkr9rwqkgdmmk82tyc95xamdz9kvuxqh9",
+          "authorization": "signam1qqpg9yz9a4pa9qjjcvdfk9s5y594mu8gdxqakjwn0fndx6xr8dnjtfumpalh20r3sjv56jw89r6j9hjggnwrxdeaxvrp4ql06u40hsqdepg2wt"
+        },
+        "tendermint_node_key": {
+          "pk": "tpknam1qqrsf0609g0zwjz7vdafttmp0htgl7m279xnjtlut44xwv09gq0373qv92l",
+          "authorization": "signam1qrrl2v9reqexvycung3nhsapaq0y9j2v5ze06sthvsm2ert8gh8nmwnultdmkm7du0f83lxr8ujpzrpw8qj8ass6n0qzzehhl7dw4jqpsg5y30"
+        },
+        "eth_hot_key": {
+          "pk": "tpknam1qypvywy8pyvxlrj2fsksg5pk6085yh45pgr035gacag8jvtp0nwcc9g0uzzqm",
+          "authorization": "signam1qx3dp3reyashg9f6tw6lwyhvytymr5pna7jn6wtzquw37nsy6t9gket7qp89qgdydcpfx7yh8nh8c8978d6v68fpnp9shv6cn09rvtknqy7zfxef"
+        },
+        "eth_cold_key": {
+          "pk": "tpknam1qypjr2y7kguvuw36kx7vp8lg9nlyl079re909jza4qs53z2vhecznxc9c3nfs",
+          "authorization": "signam1qy5lldcnzjr8hjw7u54j9y4pd5lark6vm3apeeq0lmpzk3e9207dqet3u0r8tq45mrywvl2yafwm64tf83f5z6l3xcm2p4warnzkpvg6qqv7ljyx"
+        },
+        "metadata": {
+          "email": "operations@validityops.com",
+          "website": "validityops.com",
+          "name": "ValidityOps"
+        },
+        "signatures": {
+          "tpknam1qr6c4y97ayvtlwgqf5edqtny2g5r6ke3h3srg9k5j2fgr6gkyrw4kslktwy": "signam1qpr9ua2hkgds0tqr90qjnca7mvtpz2lcqw0wpsl77r2ae7spy6uktn59xmnsh3s6aemtpnpxw9dejrpq73ry0sl7e74lxs8x030ycrqrg4ks5y"
+        },
+        "validator_name": "validitycop"
       }
     ]
   },
