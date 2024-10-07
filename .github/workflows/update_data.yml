@@ -29,6 +29,10 @@ jobs:
       - name: Run Script
         run: node index.js
 
+      - name: Remove old combined_data.json
+        run: |
+          rm -f combined_data.json
+
       - name: Move combined_data.json to root
         run: |
           cp combined_data.json .
