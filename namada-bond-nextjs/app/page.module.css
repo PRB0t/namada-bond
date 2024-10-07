@@ -19,8 +19,6 @@
   justify-items: center;
   min-height: 100vh;
   padding: 80px;
-  gap: 64px;
-  font-family: "Inter", sans-serif; /* Updated font */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -39,7 +37,6 @@
   flex-direction: column;
   align-items: center;
   gap: 32px;
-  font-family: "Inter", sans-serif; /* Updated font */
 }
 
 .tableContainer {
@@ -50,13 +47,11 @@
 .footer {
   display: flex;
   gap: 24px;
-  font-family: "Inter", sans-serif; /* Updated font */
 }
 
 /* DataGrid custom styles */
 .dataGridRoot .MuiDataGrid-root {
   background-color: white;
-  font-family: "Inter", sans-serif; /* Updated font */
 }
 
 .dataGridRoot .MuiDataGrid-row {
@@ -66,7 +61,6 @@
 
 .dataGridRoot .MuiDataGrid-cell {
   border-bottom: 1px solid black;
-  font-family: "Inter", sans-serif; /* Updated font */
 }
 
 .dataGridRoot .MuiDataGrid-columnHeaders {
@@ -128,19 +122,6 @@
   }
 }
 
-/* Global font styling */
-.page,
-.title,
-.main,
-.footer,
-.dataGridRoot {
-  font-family: "Inter", sans-serif; /* Apply to relevant classes */
-}
-
 .title {
   color: black;
-}
-
-.dataGridRoot .MuiDataGrid-cell {
-  font-family: "Inter", sans-serif; /* Updated font */
 }

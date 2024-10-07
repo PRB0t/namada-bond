@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import EmailIcon from "@mui/icons-material/Email";
 import LanguageIcon from "@mui/icons-material/Language";
 import { FaDiscord } from "react-icons/fa";
 import styles from "./page.module.css";
+import { Alert, Link, Typography } from "@mui/material";
+import { BondDialog } from "./components/BondDialog";
 
-// Define interfaces for the data structures
 interface ValidatorData {
   address: string;
   alias: string;
@@ -36,6 +37,17 @@ interface DataRow {
 
 export default function Home() {
   const [rows, setRows] = useState<DataRow[]>([]);
+  const hasExtension = typeof window !== "undefined" && window.namada;
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedValidator, setSelectedValidator] = useState<{
+    address: string;
+    alias: string;
+  } | null>(null);
+
+  const shortenAddress = (address: string): string => {
+    return `${address.slice(0, 6)}...${address.slice(-6)}`;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +59,6 @@ export default function Home() {
           throw new Error("Failed to fetch data");
         }
         const data: ValidatorData[] = await res.json();
-        console.log(data, "data");
         const mappedRows = data.map(
           (validator: ValidatorData, index: number) => {
             const commissionRate = parseFloat(validator.commission);
@@ -56,7 +67,7 @@ export default function Home() {
             const row: DataRow = {
               id: index,
               alias: validator.alias ?? "Alias Unknown",
-              address: shortenAddress(validator.address),
+              address: validator.address,
               commission: commissionRate,
               total_bond: totalBond,
               total_voting_power: totalVotingPower,
@@ -80,24 +91,24 @@ export default function Home() {
     if (rows.length === 0) fetchData();
   }, [rows.length]);
 
-  const shortenAddress = (address: string): string => {
-    return `${address.slice(0, 6)}...${address.slice(-6)}`;
-  };
-
   const columns: GridColDef[] = [
     { field: "alias", headerName: "Name", flex: 1 },
-    { field: "address", headerName: "Address", flex: 1 },
+    {
+      field: "address",
+      headerName: "Address",
+      flex: 1,
+      valueFormatter: (params) => shortenAddress(params.value),
+    },
     {
       field: "commission",
       headerName: "Commission",
       type: "number",
       flex: 1,
       width: 100,
-      headerAlign: "left",
-      align: "left",
-      valueFormatter: (params: number) => {
-        console.log(params, "comission params");
-        return `${params.toFixed(2)}%`;
+      headerAlign: "right",
+      align: "right",
+      valueFormatter: (params) => {
+        return `${params.value.toFixed(2)}%`;
       },
     },
     {
@@ -106,89 +117,110 @@ export default function Home() {
       type: "number",
       flex: 1,
       width: 150,
-      valueFormatter: (params: number) =>
-        params.toLocaleString(undefined, {
+      valueFormatter: (params) =>
+        params.value.toLocaleString(undefined, {
           minimumFractionDigits: 0,
           maximumFractionDigits: 2,
         }),
     },
     {
       field: "total_voting_power",
-      headerName: "Total Voting Power (%)",
+      headerName: "Voting Power (%)",
       type: "number",
       flex: 1,
       width: 150,
-      valueFormatter: (params: string) => `${params}%`,
+      valueFormatter: (params) => `${params.value}%`,
     },
     {
-      field: "email",
+      field: "contact",
       headerName: "",
-      renderCell: (params: GridRenderCellParams) =>
-        params.value ? (
-          <a
-            href={`mailto:${params.value}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <EmailIcon sx={{ mt: 1.25 }} />
-          </a>
-        ) : null,
+      renderCell: (params) => (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "4px",
+          }}
+        >
+          {params.row.email && (
+            <a
+              href={`mailto:${params.row.email}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <EmailIcon sx={{ fontSize: "20px", mt: "15px" }} />
+            </a>
+          )}
+          {params.row.website && (
+            <a
+              href={params.row.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <LanguageIcon sx={{ fontSize: "20px", mt: "15px" }} />
+            </a>
+          )}
+          {params.row.discord_handle && (
+            <a
+              href={`https://discord.com/users/${params.row.discord_handle}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <FaDiscord style={{ fontSize: "20px", marginTop: "15px" }} />
+            </a>
+          )}
+        </div>
+      ),
       sortable: false,
       resizable: false,
       disableColumnMenu: true,
-      width: 50,
-    },
-    {
-      field: "website",
-      headerName: "",
-      renderCell: (params: GridRenderCellParams) =>
-        params.value ? (
-          <a
-            href={params.value}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <LanguageIcon sx={{ mt: 1.25 }} />
-          </a>
-        ) : null,
-      sortable: false,
-      resizable: false,
-      disableColumnMenu: true,
-      width: 50,
-    },
-    {
-      field: "discord_handle",
-      headerName: "",
-      renderCell: (params: GridRenderCellParams) =>
-        params.value ? (
-          <a
-            href={`https://discord.com/users/${params.value}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ fontSize: "25px" }}
-          >
-            <FaDiscord />
-          </a>
-        ) : null,
-      sortable: false,
-      resizable: false,
-      disableColumnMenu: true,
-      width: 50,
+      width: 100,
     },
   ];
+
+  const handleRowClick = (params: any) => {
+    setSelectedValidator({
+      address: params.row.address,
+      alias: params.row.alias,
+    });
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+    setSelectedValidator(null);
+  };
 
   return (
     <>
       <div className={styles.page}>
+        {!hasExtension && (
+          <Alert sx={{ mt: 1 }} severity="error">
+            You must have the{" "}
+            <Link
+              href="https://namada.net/extension"
+              sx={{ fontWeight: "bold", textDecoration: "underline" }}
+              target="_blank"
+            >
+              Namada Extension
+            </Link>{" "}
+            installed!
+          </Alert>
+        )}
         <main className={styles.main}>
-          <h1 className={styles.title}>Namada Pre-Genesis Bond</h1>
+          <h1 className={styles.title}>NAMADA PRE-GENESIS BOND</h1>
+          <Typography variant="h6" sx={{ mt: -3 }} className={styles.title}>
+            Select a Validator to delegate
+          </Typography>
           <div style={{ height: "800px", width: "75vw" }}>
             <DataGrid
               rows={rows}
               columns={columns}
               pageSizeOptions={[5, 10, 20]}
+              onRowClick={handleRowClick}
               sx={{
                 "& .MuiDataGrid-row:hover": {
                   backgroundColor: "#eee",
@@ -234,6 +266,14 @@ export default function Home() {
           </div>
         </main>
       </div>
+      {selectedValidator && (
+        <BondDialog
+          open={dialogOpen}
+          handleClose={handleDialogClose}
+          validatorAddress={selectedValidator.address}
+          validatorAlias={selectedValidator.alias}
+        />
+      )}
     </>
   );
 }
