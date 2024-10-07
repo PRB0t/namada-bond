@@ -3,7 +3,7 @@ name: Update Validator Data
 on:
   push:
     branches:
-      - fix/gh-action
+      - fix/gh-actions
   workflow_dispatch: # Allows manual triggering of the workflow
 
 permissions:

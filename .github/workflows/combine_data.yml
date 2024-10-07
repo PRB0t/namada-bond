@@ -2,7 +2,7 @@ name: Update Combined Data
 on:
   push:
     branches:
-      - fix/gh-action
+      - fix/gh-actions
   workflow_dispatch:
 permissions:
   contents: write 
