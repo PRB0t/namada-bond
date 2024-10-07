@@ -39,35 +39,46 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("/validators_data.json");
-      const data: ValidatorData[] = await res.json();
+      try {
+        const res = await fetch(
+          "https://validityops.github.io/namada-bond/validators_data.json"
+        );
+        if (!res.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const data: ValidatorData[] = await res.json();
+        console.log(data, "data");
+        const mappedRows = data.map(
+          (validator: ValidatorData, index: number) => {
+            const commissionRate = parseFloat(validator.commission);
+            const totalBond = validator.total_bond;
+            const totalVotingPower = validator.total_voting_power;
+            const row: DataRow = {
+              id: index,
+              alias: validator.alias ?? "Alias Unknown",
+              address: shortenAddress(validator.address),
+              commission: commissionRate,
+              total_bond: totalBond,
+              total_voting_power: totalVotingPower,
+              email: validator.email,
+              website: validator?.website?.includes("Unknown website")
+                ? null
+                : validator.website,
+              discord_handle: validator.discord_handle,
+            };
 
-      const mappedRows = data.map((validator: ValidatorData, index: number) => {
-        const commissionRate = parseFloat(validator.commission);
-        const totalBond = validator.total_bond;
-        const totalVotingPower = validator.total_voting_power;
-        const row: DataRow = {
-          id: index,
-          alias: validator.alias ?? "Alias Unknown",
-          address: shortenAddress(validator.address),
-          commission: commissionRate,
-          total_bond: totalBond,
-          total_voting_power: totalVotingPower,
-          email: validator.email,
-          website: validator?.website?.includes("Unknown website")
-            ? null
-            : validator.website,
-          discord_handle: validator.discord_handle,
-        };
+            return row;
+          }
+        );
 
-        return row;
-      });
-
-      setRows(mappedRows);
+        setRows(mappedRows);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
-    fetchData();
-  }, []);
+    if (rows.length === 0) fetchData();
+  }, [rows.length]);
 
   const shortenAddress = (address: string): string => {
     return `${address.slice(0, 6)}...${address.slice(-6)}`;
