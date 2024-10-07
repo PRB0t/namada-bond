@@ -16,12 +16,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          persist-credentials: false # Disables automatic token authentication
+          persist-credentials: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18" # Specify your Node.js version
+          node-version: "18"
 
       - name: Install Dependencies
         run: npm install
@@ -37,6 +37,8 @@ jobs:
       - name: Create .nojekyll File
         run: |
           touch docs/.nojekyll
+
+      # **Removed the Jekyll build step**
 
       - name: Commit and Push Changes
         run: |
