@@ -29,22 +29,19 @@ jobs:
       - name: Run Script
         run: node index.js
 
-      - name: Move combined_data.json to docs folder
+      - name: Move combined_data.json to root
         run: |
-          mkdir -p docs
-          cp combined_data.json docs/
+          cp combined_data.json .
 
       - name: Create .nojekyll File
         run: |
-          touch docs/.nojekyll
-
-      # **Removed the Jekyll build step**
+          touch .nojekyll
 
       - name: Commit and Push Changes
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add combined_data.json docs/combined_data.json docs/.nojekyll
+          git add combined_data.json .nojekyll
           git commit -m "Update combined_data.json [skip ci]" || echo "No changes to commit"
 
       - name: Push changes to main
