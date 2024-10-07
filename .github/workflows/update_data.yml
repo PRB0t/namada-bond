@@ -29,11 +29,16 @@ jobs:
       - name: Run Script
         run: node index.js
 
+      - name: Move combined_data.json to docs folder
+        run: |
+          mkdir -p docs
+          cp combined_data.json docs/
+
       - name: Commit and Push Changes
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add combined_data.json
+          git add combined_data.json docs/combined_data.json
           git commit -m "Update combined_data.json [skip ci]" || echo "No changes to commit"
 
       - name: Push changes to main
