@@ -180,50 +180,53 @@ export default function Home() {
   ];
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <div style={{ height: "800px", width: "75vw" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSizeOptions={[5, 10, 20]}
-            sx={{
-              "& .MuiDataGrid-row:hover": {
-                backgroundColor: "#eee",
-              },
-              "& .MuiDataGrid-columnHeaderTitle": {
-                fontWeight: "bold",
-              },
-              "& .MuiDataGrid-columnSeparator": {
-                display: "none",
-              },
-              "& .MuiDataGrid-row": {
-                backgroundColor: "white",
-                border: "1px solid black",
-              },
-              "& .MuiDataGrid-cell": {
-                borderBottom: "1px solid black",
-              },
-              "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: "white",
-                borderBottom: "1px solid black",
-              },
-              // Add the following styles to make pagination visible
-              "& .MuiDataGrid-footerContainer": {
-                backgroundColor: "white",
-                color: "black",
-                borderTop: "1px solid black",
-              },
-              "& .MuiTablePagination-root": {
-                color: "black",
-              },
-              "& .MuiSvgIcon-root": {
-                color: "black",
-              },
-            }}
-          />
-        </div>
-      </main>
-    </div>
+    <>
+      <div className={styles.page}>
+        <main className={styles.main}>
+          <h1 className={styles.title}>Namada Pre-Genesis Bond</h1>
+          <div style={{ height: "800px", width: "75vw" }}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSizeOptions={[5, 10, 20]}
+              sx={{
+                "& .MuiDataGrid-row:hover": {
+                  backgroundColor: "#eee",
+                },
+                "& .MuiDataGrid-columnHeaderTitle": {
+                  fontWeight: "bold",
+                },
+                "& .MuiDataGrid-columnSeparator": {
+                  display: "none",
+                },
+                "& .MuiDataGrid-row": {
+                  backgroundColor: "white",
+                  border: "1px solid black",
+                },
+                "& .MuiDataGrid-cell": {
+                  borderBottom: "1px solid black",
+                },
+                "& .MuiDataGrid-columnHeaders": {
+                  backgroundColor: "white",
+                  borderBottom: "1px solid black",
+                },
+                // Add the following styles to make pagination visible
+                "& .MuiDataGrid-footerContainer": {
+                  backgroundColor: "white",
+                  color: "black",
+                  borderTop: "1px solid black",
+                },
+                "& .MuiTablePagination-root": {
+                  color: "black",
+                },
+                "& .MuiSvgIcon-root": {
+                  color: "black",
+                },
+              }}
+            />
+          </div>
+        </main>
+      </div>
+    </>
   );
 }
